@@ -1,6 +1,7 @@
 import router from "../router.js";
 import mapping from "./mapping.js";
 
+
 function getNextRoute(origin, destination, travelmode) {
     // let path = service.getNextRoute();
     // let path = "https://www.google.com/maps/dir/?api=1&origin=Illiswilstrasse&destination=Uettligenstrasse&travelmode=bicycling"
@@ -23,22 +24,25 @@ let list = [
         name: "Bernhard Messerli",
         phone: "079 206 42 23",
         status: "open"
+    },
+    {
+        origin: "Bielstrasse+28+3033+Lyss",
+        destination: "Murzelenstrasse+35",
+        travelmode: "bicycling",
+        name: "Bernhard Messerli",
+        phone: "079 206 42 23",
+        status: "open"
+    },
+    {
+        origin: "Bielstrasse+28+3033+Lyss",
+        destination: "Murzelenstrasse+35",
+        travelmode: "bicycling",
+        name: "Kurt Moser",
+        phone: "079 206 42 23",
+        status: "open"
     }
 ];
 let actualPosition = "Illiswilstrasse+11";
-
-let client = {};
-client.home = "Illiswilstrasse+11";
-client.carpoint = "ILliswilstrasse+18";
-client.name = "Bernhard Messerli";
-client.phone = "079 206 42 23";
-client.order = {
-    type: "milk",
-    number: 2,
-    date: "15-10-2022"
-};
-client.status = "open";
-client.comment = "none";
 
 
 let n = 0;
@@ -51,7 +55,13 @@ function getPreviousClient () {
 }
 
 function searchClient (name) {
-    return client;
+    return list.find(x => x.name === name);
+}
+function setStatusActualClient(status) {
+    list[n].status = status;
+}
+function getActualClient() {
+    return list[n];
 }
 
 export default {
@@ -59,19 +69,30 @@ export default {
     nextMap: function ($template) {
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
-        let path = getNextRoute(clientActual.origin, clientActual.destination, clientActual.travelmode);
+        let path = getNextRoute(actualPosition, clientActual.destination, clientActual.travelmode);
         // let path = getNextRoute(actualPosition, this.searchClient("Bernhard Messerli").home, "driving");
+        actualPosition = clientActual.destination;
         router.map(path);
     },
     next: function ($template) {
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
     },
-    previous: function () {
-
+    previous: function ($template) {
+        let clientActual = getPreviousClient();
+        addClientTemplate(clientActual, $template);
     },
-    previousMap: function () {
-
+    previousMap: function ($template) {
+        let clientActual = getPreviousClient();
+        addClientTemplate(clientActual, $template);
+        let path = getNextRoute(actualPosition, clientActual.destination, clientActual.travelmode);
+        // let path = getNextRoute(actualPosition, this.searchClient("Bernhard Messerli").home, "driving");
+        actualPosition = clientActual.destination;
+        router.map(path);
+    },
+    search: function ($template, name) {
+        let clientActual = searchClient(name);
+        addClientTemplate(clientActual, $template);
     }
 
 }
@@ -81,13 +102,36 @@ function addClient(client) {
         <td>${client.name}</td>
         <td>${client.origin}</td>
         <td>${client.phone}</td>
-        <td>${client.status}</td>
+        <td id="status" class="done">${client.status}</td>
     `
     );
 }
+function addButtonDone() {
+    let temp =
+     $('<div>').addClass('primary').html(
+        `
+         <form>
+            <button id="done" type="submit" class="primary" >done</button>
+            <button id="open" type="submit" class="primary" >open</button>
+         </form>
+        `);
+
+    return temp;
+
+
+}
+
 
 function addClientTemplate(client, $template) {
     let $orderComponent = mapping.getOrderComponent();
     // $('#clientrow', $orderComponent).remove();
-    mapping.setOrderComponent($('#table',$orderComponent).append(addClient(client)).append($template));
+    mapping.setOrderComponent($('#table',$orderComponent).append(addClient(client).append(addButtonDone())).append($template));
+    // $('#done', $orderComponent).click(event => done(event));
+}
+
+function done(event) {
+    event.preventDefault();
+    setStatusActualClient("done");
+    $('#status', mapping.getOrderComponent()).html("done");
+    addClientTemplate(getActualClient(), mapping.getOrderComponent());
 }

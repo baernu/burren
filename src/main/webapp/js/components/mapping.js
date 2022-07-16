@@ -1,4 +1,5 @@
 import map from "./map.js";
+import status from "../status.js";
 const template = `
     <div >
         <table  id="table">
@@ -38,7 +39,10 @@ export default {
 
     render: function () {
         $('#nextMap', $template2).click(event => this.nextMap(event, $template2));
+        $('#previousMap', $template2).click(event => this.previousMap(event, $template2));
         $('#next', $template2).click(event => this.next(event, $template2));
+        $('#previous', $template2).click(event => this.previous(event, $template2));
+        $('#search', $template2).click(event => this.search(event, $template2));
         let $main = $('main').empty();
         $main.append($template).append($template2);
     },
@@ -49,18 +53,37 @@ export default {
 
     setOrderComponent: function(orderComponent) {
         $template = orderComponent;
-        this.render();
+        let $main = $('main').empty();
+        $main.append($template).append($template2);
+        // this.render();
         },
     nextMap: function (event, $template) {
         event.preventDefault();
         map.nextMap($template);
 
     },
+    previousMap: function (event, $template) {
+        event.preventDefault();
+        map.previousMap($template);
+    },
     next: function (event, $template) {
         event.preventDefault();
         map.next($template);
     },
-    previous: function (event) {
+    previous: function (event, $template) {
         event.preventDefault();
+        map.previous($template);
+    },
+    search: function (event, $template) {
+        event.preventDefault();
+        let name = getName($template);
+        console.log(name);
+        if (name == null)
+            status.error('please enter a name');
+        $('#username', $template).val("");
+        map.search($template, name);
     }
+}
+function getName($template) {
+   return $('#username', $template).val();
 }
