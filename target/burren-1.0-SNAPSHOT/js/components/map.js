@@ -116,8 +116,9 @@ function addClient(client) {
     `
     );
 }
+let $temp;
 function addButtonDone() {
-    let temp =
+    $temp =
      $('<div>').addClass('primary').html(
         `
          <form>
@@ -126,7 +127,7 @@ function addButtonDone() {
          </form>
         `);
 
-    return temp;
+    return $temp;
 
 
 }
@@ -135,12 +136,13 @@ function addButtonDone() {
 function addClientTemplate(client, $template) {
     let $orderComponent = mapping.getOrderComponent();
     mapping.setOrderComponent($('#table',$orderComponent).append(addClient(client).append(addButtonDone())).append($template));
-    // $('#done', $orderComponent).click(event => done(event));
+    $('#done', $temp).click(event => done(event));
 }
 
 function done(event) {
     event.preventDefault();
     setStatusActualClient("done");
-    $('#status', mapping.getOrderComponent()).val("done");
-    addClientTemplate(getActualClient(), mapping.getOrderComponent());
+    $('#status', mapping.getOrderComponent()).html("done");
+    // addClientTemplate(getActualClient(), mapping.getOrderComponent());
+
 }
