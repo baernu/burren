@@ -15,7 +15,8 @@ let list = [
         travelmode: "driving",
         name: "Bernhard Messerli",
         phone: "079 206 42 23",
-        status: "open"
+        status: "open",
+        back: 0
     },
     {
         origin: "Illiswilstrasse+24+3033",
@@ -23,7 +24,8 @@ let list = [
         travelmode: "bicycling",
         name: "Bernhard Messerli",
         phone: "079 206 42 23",
-        status: "open"
+        status: "open",
+        back: 0
     },
     {
         origin: "Bielstrasse+28+3033+Lyss",
@@ -31,7 +33,8 @@ let list = [
         travelmode: "bicycling",
         name: "Bernhard Messerli",
         phone: "079 206 42 23",
-        status: "open"
+        status: "open",
+        back: 0
     },
     {
         origin: "Bielstrasse+28+3033+Lyss",
@@ -39,7 +42,8 @@ let list = [
         travelmode: "bicycling",
         name: "Kurt Moser",
         phone: "079 206 42 23",
-        status: "open"
+        status: "open",
+        back: 0
     }
 ];
 let actualPosition = "Illiswilstrasse+11";
@@ -93,6 +97,12 @@ export default {
     search: function ($template, name) {
         let clientActual = searchClient(name);
         addClientTemplate(clientActual, $template);
+    },
+    setNumberBack: function (number) {
+        getActualClient().back = number;
+    },
+    getNumberBack: function() {
+        return getActualClient().back;
     }
 
 }
@@ -124,7 +134,6 @@ function addButtonDone() {
 
 function addClientTemplate(client, $template) {
     let $orderComponent = mapping.getOrderComponent();
-    // $('#clientrow', $orderComponent).remove();
     mapping.setOrderComponent($('#table',$orderComponent).append(addClient(client).append(addButtonDone())).append($template));
     // $('#done', $orderComponent).click(event => done(event));
 }
@@ -132,6 +141,6 @@ function addClientTemplate(client, $template) {
 function done(event) {
     event.preventDefault();
     setStatusActualClient("done");
-    $('#status', mapping.getOrderComponent()).html("done");
+    $('#status', mapping.getOrderComponent()).val("done");
     addClientTemplate(getActualClient(), mapping.getOrderComponent());
 }

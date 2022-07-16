@@ -17,7 +17,6 @@ const template2 = `
         <br>
         <br>
         <br>
-        <form id="search">
         <button id="nextMap" type="submit" class="primary">NextMap</button>
         <button id="previousMap" type="submit" class="primary">PreviousMap</button> <br>
         <button id="next" type="submit" class="primary">Next</button>
@@ -26,8 +25,10 @@ const template2 = `
         <br>
         <label for="username">Name</label> 
 	    <input id="username" name="username">
-        <button id="search" type="submit" class="primary">Search</button>
-        </form>
+        <button id="search" type="submit" class="primary">Search</button><br><br>
+        <label for="back">Back</label>
+        <input id="back" name="back" type="number">
+        <button id="submitBack" type="submit" class="primary">Submit</button>
     </div>
 
 `;
@@ -43,6 +44,7 @@ export default {
         $('#next', $template2).click(event => this.next(event, $template2));
         $('#previous', $template2).click(event => this.previous(event, $template2));
         $('#search', $template2).click(event => this.search(event, $template2));
+        $('#submitBack', $template2).click(event => back(event, $template2));
         let $main = $('main').empty();
         $main.append($template).append($template2);
     },
@@ -78,12 +80,23 @@ export default {
         event.preventDefault();
         let name = getName($template);
         console.log(name);
-        if (name == null)
-            status.error('please enter a name');
+        // if (name !== "Huber")
+        //     console.log("leider nein");
+            // status.error('please enter a name');
         $('#username', $template).val("");
         map.search($template, name);
     }
 }
+
 function getName($template) {
    return $('#username', $template).val();
+}
+
+function back(event, $template) {
+    event.preventDefault();
+    let number = $('#back', $template).val();
+    console.log(number);
+    $('#back', $template).val("");
+    map.setNumberBack(number);
+    status.info("back: " + map.getNumberBack());
 }
