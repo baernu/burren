@@ -4,6 +4,7 @@ const template = `
     <div >
         <table  id="table">
             <tr class="tableOrder">
+                <th id="th0">Nr</th>
                 <th id="th1">Name</th>
                 <th id="th2">Addresse</th>
                 <th id="th3">Number</th>
