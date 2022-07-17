@@ -124,6 +124,9 @@ export default {
     },
     getActualName: function() {
         return actualClient.name;
+    },
+    exportList: function() {
+        return list;
     }
 
 }

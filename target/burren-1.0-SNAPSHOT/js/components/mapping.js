@@ -31,7 +31,8 @@ const template2 = `
         <button id="search" type="submit" class="primary">Search</button><br><br>
         <label for="back">Back</label>
         <input id="back" name="back" type="number">
-        <button id="submitBack" type="submit" class="primary">Submit</button>
+        <button id="submitBack" type="submit" class="primary">Submit</button><br>
+        <button id="notSearched" type="submit" class="primary">Notsearched</button>
     </div>
 
 `;
@@ -49,6 +50,7 @@ export default {
         $('#search', $template2).click(event => this.search(event, $template2));
         $('#submitBack', $template2).click(event => back(event, $template2));
         $('#actualize', $template2).click(event => this.actualize(event, $template2));
+        $('#notSearched', $template2).click(event => this.notSearched(event));
         let $main = $('main').empty();
         $main.append($template).append($template2);
     },
@@ -92,6 +94,12 @@ export default {
             // status.error('please enter a name');
         $('#username', $template).val("");
         map.search($template, name);
+    },
+    notSearched: function (event) {
+        event.preventDefault();
+        status.listGenerateHead();
+        let clientList = map.exportList().filter(x => x.status === "open");
+        clientList.forEach(client => status.list(client));
     }
 }
 
