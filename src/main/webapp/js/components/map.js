@@ -67,8 +67,18 @@ function getPreviousClient () {
     return list[--n];
 }
 
+function getNumberOfActual() {
+    this.getActualNumber();
+}
+
 function searchClient (name) {
     let client = list.find(x => x.name === name);
+    actualClient = client;
+    return client;
+}
+
+function searchClientByNumber (number) {
+    let client = list.find(x => x.listNumber === number);
     actualClient = client;
     return client;
 }
@@ -125,6 +135,9 @@ export default {
     getActualName: function() {
         return actualClient.name;
     },
+    getActualNumber: function() {
+        return actualClient.listNumber;
+    },
     exportList: function() {
         return list;
     }
@@ -180,4 +193,8 @@ function done(event, name) {
 function open(event, name) {
     event.preventDefault();
     setStatusActualClient("open", name);
+}
+
+function checkStatusOfLast() {
+    return searchClientByNumber(this.getActualNumber()-1).status;
 }
