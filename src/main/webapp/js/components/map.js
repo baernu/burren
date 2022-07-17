@@ -1,5 +1,7 @@
 import router from "../router.js";
 import mapping from "./mapping.js";
+import bind from "../bind.js";
+import status from "../status.js";
 
 
 function getNextRoute(origin, destination, travelmode) {
@@ -77,6 +79,7 @@ function setStatusActualClient(status, name) {
 export default {
 
     nextMap: function ($template) {
+        status.clear();
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
         let path = getNextRoute(actualPosition, clientActual.destination, clientActual.travelmode);
@@ -85,14 +88,17 @@ export default {
         router.map(path);
     },
     next: function ($template) {
+        status.clear();
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
     },
     previous: function ($template) {
+        status.clear();
         let clientActual = getPreviousClient();
         addClientTemplate(clientActual, $template);
     },
     previousMap: function ($template) {
+        status.clear();
         let clientActual = getPreviousClient();
         addClientTemplate(clientActual, $template);
         let path = getNextRoute(actualPosition, clientActual.destination, clientActual.travelmode);
@@ -100,7 +106,13 @@ export default {
         actualPosition = clientActual.destination;
         router.map(path);
     },
+    actualize: function ($template) {
+        status.clear();
+        let clientActual = searchClient(this.getActualName());
+        addClientTemplate(clientActual, $template);
+    },
     search: function ($template, name) {
+        status.clear();
         let clientActual = searchClient(name);
         addClientTemplate(clientActual, $template);
     },
@@ -117,14 +129,19 @@ export default {
 }
 
 function addClient(client) {
-    return $('<tr>').addClass('clientRow').html(`
+   let data = $('<tr id="trow">').addClass('clientRow').html(`
         <td>${client.listNumber}</td>
         <td>${client.name}</td>
         <td>${client.origin}</td>
         <td>${client.phone}</td>
-        <td id="status" class="done">${client.status}</td>
+        <td data-field="back" name="back" class="done">${client.back}</td>
+        <td data-field="status" name="status" class="done">${client.status}</td>
     `
     );
+   bind.bind(client, $('#trow'));
+   // bind.bind(client.back, $('#trow'));
+   return data;
+
 }
 let $temp;
 function addButtonDone() {
@@ -153,13 +170,11 @@ function addClientTemplate(client, $template) {
 function done(event, name) {
     event.preventDefault();
     setStatusActualClient("done", name);
-    $('#status', mapping.getOrderComponent()).html("done");
-    // addClientTemplate(getActualClient(), mapping.getOrderComponent());
+
 
 }
 
 function open(event, name) {
     event.preventDefault();
     setStatusActualClient("open", name);
-    $('#status', mapping.getOrderComponent()).html("open");
 }

@@ -8,7 +8,8 @@ const template = `
                 <th id="th1">Name</th>
                 <th id="th2">Addresse</th>
                 <th id="th3">Number</th>
-                <th id="th4">Status</th>
+                <th id="th4">Back</th>
+                <th id="th5">Status</th>
             </tr>
         </table>
      </div>
@@ -22,6 +23,7 @@ const template2 = `
         <button id="previousMap" type="submit" class="primary">PreviousMap</button> <br>
         <button id="next" type="submit" class="primary">Next</button>
         <button id="previous" type="submit" class="primary">Previous</button>
+        <button id="actualize" type"submit" class="primary">Actualize</button>
         <br>
         <br>
         <label for="username">Name</label> 
@@ -46,6 +48,7 @@ export default {
         $('#previous', $template2).click(event => this.previous(event, $template2));
         $('#search', $template2).click(event => this.search(event, $template2));
         $('#submitBack', $template2).click(event => back(event, $template2));
+        $('#actualize', $template2).click(event => this.actualize(event, $template2));
         let $main = $('main').empty();
         $main.append($template).append($template2);
     },
@@ -58,7 +61,6 @@ export default {
         $template = orderComponent;
         let $main = $('main').empty();
         $main.append($template).append($template2);
-        // this.render();
         },
     nextMap: function (event, $template) {
         event.preventDefault();
@@ -76,6 +78,10 @@ export default {
     previous: function (event, $template) {
         event.preventDefault();
         map.previous($template);
+    },
+    actualize: function (event, $template) {
+        event.preventDefault();
+        map.actualize($template);
     },
     search: function (event, $template) {
         event.preventDefault();
