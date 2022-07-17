@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+
 /**
  * The class ConnectionManager is used to manage database connections.
  */

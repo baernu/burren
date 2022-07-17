@@ -4,7 +4,7 @@ export default {
             let key = $(this).attr('data-field');
             if (object[key]) $(this).val(object[key]);
             $(this).change(event => object[key] = $(this).val());
-            console.log($(this).val(object[key]));
+            // console.log($(this).val(object[key]));
         });
     },
     bindarray: function($values, $view, timearray){
