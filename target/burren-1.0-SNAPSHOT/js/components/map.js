@@ -12,6 +12,27 @@ function getNextRoute(origin, destination, travelmode) {
 }
 let list = [
     {
+        listNumber: -1,
+        origin: "start",
+        destination: "",
+        travelmode: "",
+        name: "",
+        phone: "",
+        status: "done",
+        back: 0
+    },
+    {
+        listNumber: 0,
+        origin: "start",
+        destination: "Mengestorfstrasse",
+        travelmode: "",
+        name: "",
+        phone: "",
+        status: "done",
+        back: 0
+    },
+
+    {
         listNumber: 1,
         origin: "Illiswilstrasse+11+3033",
         destination: "Murzelenstrasse+24",
@@ -50,16 +71,27 @@ let list = [
         phone: "079 206 42 23",
         status: "open",
         back: 0
+    },
+    {
+        listNumber: 5,
+        origin: "end",
+        destination: "end",
+        travelmode: "driving",
+        name: "end",
+        phone: "",
+        status: "done",
+        back: 0
     }
 ];
 let actualPosition = "Illiswilstrasse+11";
 let actualClient;
 
 
-let n = 0;
+let n = 1;
 function getNextClient () {
-    actualClient = list[n];
-    return list[n++];
+    let k = n;
+    actualClient = list[++k];
+    return list[++n];
 }
 function getPreviousClient () {
     let k = n;
@@ -67,18 +99,8 @@ function getPreviousClient () {
     return list[--n];
 }
 
-function getNumberOfActual() {
-    this.getActualNumber();
-}
-
 function searchClient (name) {
     let client = list.find(x => x.name === name);
-    actualClient = client;
-    return client;
-}
-
-function searchClientByNumber (number) {
-    let client = list.find(x => x.listNumber === number);
     actualClient = client;
     return client;
 }
@@ -90,15 +112,25 @@ export default {
 
     nextMap: function ($template) {
         status.clear();
+        let i = n;
+        if (i > -1) {
+            if (list[i].status === "open")
+                status.error("last client not delivered!");
+        }
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
         let path = getNextRoute(actualPosition, clientActual.destination, clientActual.travelmode);
-        // let path = getNextRoute(actualPosition, this.searchClient("Bernhard Messerli").home, "driving");
         actualPosition = clientActual.destination;
         router.map(path);
     },
     next: function ($template) {
         status.clear();
+        let i = n;
+        if (i > -1) {
+            if (list[i].status === "open")
+                status.error("last client not delivered!");
+        }
+
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
     },
@@ -134,9 +166,6 @@ export default {
     },
     getActualName: function() {
         return actualClient.name;
-    },
-    getActualNumber: function() {
-        return actualClient.listNumber;
     },
     exportList: function() {
         return list;
@@ -195,6 +224,3 @@ function open(event, name) {
     setStatusActualClient("open", name);
 }
 
-function checkStatusOfLast() {
-    return searchClientByNumber(this.getActualNumber()-1).status;
-}

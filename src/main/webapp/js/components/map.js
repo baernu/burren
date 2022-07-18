@@ -112,6 +112,11 @@ export default {
 
     nextMap: function ($template) {
         status.clear();
+        let i = n;
+        if (i > -1) {
+            if (list[i].status === "open")
+                status.error("last client not delivered!");
+        }
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
         let path = getNextRoute(actualPosition, clientActual.destination, clientActual.travelmode);
@@ -120,6 +125,12 @@ export default {
     },
     next: function ($template) {
         status.clear();
+        let i = n;
+        if (i > -1) {
+            if (list[i].status === "open")
+                status.error("last client not delivered!");
+        }
+
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
     },

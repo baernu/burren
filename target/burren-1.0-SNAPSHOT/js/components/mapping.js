@@ -4,8 +4,8 @@ const template = `
     <div >
         <table  id="table">
             <tr class="tableOrder">
-                <th id="th0">Nr</th>
-                <th id="th1">Name</th>
+                <th id="thNumber">Nr</th>
+                <th id="thName">Name</th>
                 <th id="th2">Addresse</th>
                 <th id="th3">Number</th>
                 <th id="th4">Back</th>
@@ -87,7 +87,7 @@ export default {
     },
     search: function (event, $template) {
         event.preventDefault();
-        let name = getName($template);
+        let name = $('#username', $template).val();
         console.log(name);
         // if (name !== "Huber")
         //     console.log("leider nein");
@@ -101,10 +101,6 @@ export default {
         let clientList = map.exportList().filter(x => x.status === "open");
         clientList.forEach(client => status.list(client));
     }
-}
-
-function getName($template) {
-   return $('#username', $template).val();
 }
 
 function back(event, $template) {

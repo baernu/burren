@@ -16,6 +16,7 @@ export default {
 
     // Show error message in footer
     error: function (message) {
+        this.clear();
         $footer.html($('<div>').addClass('error').text(message));
     },
 
