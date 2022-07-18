@@ -43,6 +43,7 @@ let $template2 = $(template2);
 export default {
 
     render: function () {
+        // position.getPos();
         $('#nextMap', $template2).click(event => this.nextMap(event, $template2));
         $('#previousMap', $template2).click(event => this.previousMap(event, $template2));
         $('#next', $template2).click(event => this.next(event, $template2));
@@ -89,9 +90,6 @@ export default {
         event.preventDefault();
         let name = $('#username', $template).val();
         console.log(name);
-        // if (name !== "Huber")
-        //     console.log("leider nein");
-            // status.error('please enter a name');
         $('#username', $template).val("");
         map.search($template, name);
     },

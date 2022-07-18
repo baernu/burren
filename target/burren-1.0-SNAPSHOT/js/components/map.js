@@ -6,8 +6,9 @@ import status from "../status.js";
 
 function getNextRoute(origin, destination, travelmode) {
     // let path = service.getNextRoute();
-    // let path = "https://www.google.com/maps/dir/?api=1&origin=Illiswilstrasse&destination=Uettligenstrasse&travelmode=bicycling"
+    // let path = "https://www.google.com/maps/dir/?api=1&origin=46.9596448,7.2632538&destination=Uettligenstrasse&travelmode=bicycling"
     let path = "https://www.google.com/maps/dir/?api=1&origin=" + origin + "&destination=" + destination + "&travelmode=" + travelmode;
+
     return path;
 }
 let list = [
@@ -45,7 +46,7 @@ let list = [
     {
         listNumber: 2,
         origin: "Illiswilstrasse+24+3033",
-        destination: "Murzelenstrasse+35",
+        destination: "Steiniswegstrasse+35",
         travelmode: "bicycling",
         name: "Bernhard Messerli 2",
         phone: "079 206 42 23",
@@ -55,7 +56,7 @@ let list = [
     {
         listNumber: 3,
         origin: "Bielstrasse+28+3033+Lyss",
-        destination: "Murzelenstrasse+35",
+        destination: "Uettligenstrasse+35",
         travelmode: "bicycling",
         name: "Bernhard Messerli 3",
         phone: "079 206 42 23",
@@ -83,7 +84,34 @@ let list = [
         back: 0
     }
 ];
-let actualPosition = "Illiswilstrasse+11";
+// let actualPosition = "Mengestorfbergstrasse";
+// let pos = position.pos();
+let actualPosition;
+let bol = "bad";
+actualPosition = "Mengestorfbergstrasse";
+function watchPos () {
+    navigator.geolocation.watchPosition(
+        // ✅   success callback, mandatory
+        (position) => {
+            actualPosition = position.coords.latitude + "," + position.coords.longitude;
+            bol = "good";
+
+        },
+        // 🚨 error callback, optional
+        (error) => {
+            // display error
+            console.log(error);
+        },
+        // ⚙️ options object, optional
+        {
+            timeout: 1000,
+        }
+    );
+}
+watchPos();
+
+
+console.log(actualPosition);
 let actualClient;
 
 
@@ -119,8 +147,9 @@ export default {
         }
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
-        let path = getNextRoute(actualPosition, clientActual.destination, clientActual.travelmode);
-        actualPosition = clientActual.destination;
+        let path = getNextRoute(actualPosition, clientActual.origin, clientActual.travelmode);
+        // actualPosition = clientActual.origin;
+        actualPosition = watchPos();
         router.map(path);
     },
     next: function ($template) {
