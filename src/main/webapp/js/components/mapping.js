@@ -1,5 +1,6 @@
 import map from "./map.js";
 import status from "../status.js";
+import navigation from "../navigation.js";
 const template = `
     <div >
         <table  id="table">
@@ -43,6 +44,7 @@ export default {
 
     render: function () {
         // position.getPos();
+        navigation.showNav(true);
         $('#nextMap', $template2).click(event => this.nextMap(event, $template2));
         $('#next', $template2).click(event => this.next(event, $template2));
         $('#previous', $template2).click(event => this.previous(event, $template2));

@@ -1,4 +1,5 @@
 import bind from "../bind.js";
+import navigation from "../navigation.js";
 
 const editTemplate =
 
@@ -82,12 +83,17 @@ function addButton(message) {
     return $("<button id='"+ message +"' type='submit' class='primary'>"+ message +"</button>");
 }
 
-
+let i = 0;
 export default {
     render: function () {
-        list.forEach(element => $('#tableEdit', $editTemplate).append(make(element)));
-        bind.bind(list, $('#tableEdit'));
-        $editTemplate.append(addButton("send"));
+        navigation.showNav(true);
+        if (i === 0) {
+            list.forEach(element => $('#tableEdit', $editTemplate).append(make(element)));
+            bind.bind(list, $('#tableEdit'));
+            $editTemplate.append(addButton("send"));
+        }
+
+        i = 1;
         let $main = $('main');
         $main.empty().append($editTemplate);
     }

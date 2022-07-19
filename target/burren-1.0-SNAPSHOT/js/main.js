@@ -7,6 +7,7 @@ import bind from "./bind.js";
 import position from "./components/position.js";
 import showOrder from "./components/showOrder.js";
 import editOrder from "./components/editOrder.js";
+import navigation from "./navigation.js";
 
 router.register('/login', login);
 router.register('/map', map);
@@ -15,5 +16,6 @@ router.register('/bind', bind);
 router.register('/position', position);
 router.register('/showOrder', showOrder);
 router.register('/editOrder', editOrder);
+router.register('/navigation', navigation);
 
 router.navigate('/editOrder');

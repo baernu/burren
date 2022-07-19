@@ -1,4 +1,4 @@
-
+import navigation from "../navigation.js";
 const showOrder =
 
     `<div id="show">
@@ -63,6 +63,7 @@ let $showTemplate = $(showOrder);
 export default {
 
     render: function () {
+        navigation.showNav(true);
         orderList.forEach(element => $('#tableShow', $showTemplate).append(show(element)));
         let $main = $('main');
         $main.empty().append($showTemplate);
