@@ -1,8 +1,8 @@
-import router from "../router.js";
-import status from "../status.js";
-// import service from "../service.js";
-import store from "../store.js";
-import navigation from "../navigation.js";
+import router from '../router.js';
+import service from '../service.js';
+import store from '../store.js';
+import status from '../status.js';
+import navigation from '../navigation.js';
 
 // Template
 const loginFormTemplate = `
@@ -28,15 +28,17 @@ const loginFormTemplate = `
 export default {
     title: 'Login',
     render: function() {
-        navigation.showNav(false);
+        let $container = $('main').empty();
         // Get template html
         let $view = $(loginFormTemplate);
         // Render h2
         $('h2', $view).text(this.title);
         // Attach event listeners to html
         $('#loginButton', $view).click(event => login(event, $view));
-        let $main = $('main').empty();
-        $main.append($view);
+        // Hide navigation on Login view
+        navigation.showNav(false);
+        // render html
+        $container.append($view);
     }
 }
 
@@ -52,19 +54,18 @@ function getFormData($view) {
 function login(event, $view) {
     event.preventDefault();
     // POSTPONED: V1.1, check validity client side
-    // let formData = getFormData($view);
-    // service.getToken(formData.email, formData.password)
-    //     .then(token => {
-    //         // Save received data in store
-    //         store.setToken(token);
-    //         // Show next view
-    //         console.log("navigating to home");
-    //         //router.navigate('/home');
-    //     })
-    //     .catch(xhr => {
-    //         if (xhr.status === 401)
-    //             status.error('Invalid username or password');
-    //         else status.error(`Unexpected error (${xhr.status})`);
-    //     });
-    router.navigate('/mapping');
+    let formData = getFormData($view);
+    service.getToken(formData.email, formData.password)
+        .then(token => {
+            // Save received data in store
+            store.setToken(token);
+            // Show next view
+            console.log("navigating to home");
+            router.navigate('/editOrder');
+        })
+        .catch(xhr => {
+            if (xhr.status === 401)
+                status.error('Invalid username or password');
+            else status.error(`Unexpected error (${xhr.status})`);
+        });
 }

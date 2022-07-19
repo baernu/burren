@@ -1,4 +1,4 @@
-
+package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 
 /**
- * The class ConnectionManager is used to manage database connections.
+ * The class util.ConnectionManager is used to manage database connections.
  */
 public class ConnectionManager {
 

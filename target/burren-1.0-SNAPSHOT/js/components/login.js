@@ -1,7 +1,8 @@
-import router from "../router.js";
-import status from "../status.js";
-import service from "../service.js";
-import store from "../store.js";
+import router from '../router.js';
+import service from '../service.js';
+import store from '../store.js';
+import status from '../status.js';
+import navigation from '../navigation.js';
 
 // Template
 const loginFormTemplate = `
@@ -27,14 +28,17 @@ const loginFormTemplate = `
 export default {
     title: 'Login',
     render: function() {
+        let $container = $('main').empty();
         // Get template html
         let $view = $(loginFormTemplate);
         // Render h2
         $('h2', $view).text(this.title);
         // Attach event listeners to html
         $('#loginButton', $view).click(event => login(event, $view));
-        let $main = $('main').empty();
-        $main.append($view);
+        // Hide navigation on Login view
+        navigation.showNav(false);
+        // render html
+        $container.append($view);
     }
 }
 
@@ -57,7 +61,7 @@ function login(event, $view) {
             store.setToken(token);
             // Show next view
             console.log("navigating to home");
-            //router.navigate('/home');
+            router.navigate('/editOrder');
         })
         .catch(xhr => {
             if (xhr.status === 401)

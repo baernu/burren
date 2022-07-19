@@ -1,4 +1,4 @@
-
+package util;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
- * The class ObjectMapperFactory is used to create and configure object mappers.
+ * The class util.ObjectMapperFactory is used to create and configure object mappers.
  */
 public class ObjectMapperFactory {
 

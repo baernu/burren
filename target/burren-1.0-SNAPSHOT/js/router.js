@@ -75,3 +75,5 @@ function show(component, param) {
     // Render the component: no return value because of callback hell
     component.render(param);
 }
+
+
