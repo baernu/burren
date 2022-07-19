@@ -24,8 +24,7 @@ let list = [
     },
     {
         listNumber: 0,
-        origin: "start",
-        destination: "Mengestorfstrasse",
+        origin: "Mengestorfbergstrasse",
         travelmode: "",
         name: "",
         phone: "",
@@ -35,8 +34,7 @@ let list = [
 
     {
         listNumber: 1,
-        origin: "Illiswilstrasse+11+3033",
-        destination: "Murzelenstrasse+24",
+        origin: "Illiswilstrasse+13+3033",
         travelmode: "driving",
         name: "Bernhard Messerli 1",
         phone: "079 206 42 23",
@@ -46,7 +44,6 @@ let list = [
     {
         listNumber: 2,
         origin: "Illiswilstrasse+24+3033",
-        destination: "Steiniswegstrasse+35",
         travelmode: "bicycling",
         name: "Bernhard Messerli 2",
         phone: "079 206 42 23",
@@ -56,7 +53,6 @@ let list = [
     {
         listNumber: 3,
         origin: "Bielstrasse+28+3033+Lyss",
-        destination: "Uettligenstrasse+35",
         travelmode: "bicycling",
         name: "Bernhard Messerli 3",
         phone: "079 206 42 23",
@@ -66,7 +62,6 @@ let list = [
     {
         listNumber: 4,
         origin: "Bielstrasse+28+3033+Lyss",
-        destination: "Murzelenstrasse+35",
         travelmode: "bicycling",
         name: "Kurt Moser",
         phone: "079 206 42 23",
@@ -75,17 +70,15 @@ let list = [
     },
     {
         listNumber: 5,
-        origin: "end",
-        destination: "end",
-        travelmode: "driving",
-        name: "end",
+        origin: "Mengestorfbergstrasse",
+        travelmode: "",
+        name: "",
         phone: "",
         status: "done",
         back: 0
-    }
+    },
 ];
-// let actualPosition = "Mengestorfbergstrasse";
-// let pos = position.pos();
+
 let actualPosition;
 let bol = "bad";
 actualPosition = "Mengestorfbergstrasse";
@@ -101,6 +94,7 @@ function watchPos () {
         (error) => {
             // display error
             console.log(error);
+            bol = "bad";
         },
         // ⚙️ options object, optional
         {
@@ -108,10 +102,10 @@ function watchPos () {
         }
     );
 }
-watchPos();
+// watchPos();
 
 
-console.log(actualPosition);
+// console.log(actualPosition);
 let actualClient;
 
 
@@ -140,16 +134,24 @@ export default {
 
     nextMap: function ($template) {
         status.clear();
+        bol = "bad";
         let i = n;
         if (i > -1) {
             if (list[i].status === "open")
                 status.error("last client not delivered!");
         }
+
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
+        let position = watchPos();
+        if (bol === "bad") {
+            let k = n;
+            actualPosition = list[--k].origin;
+            console.log(actualPosition);
+        } else
+            actualPosition = position;
+
         let path = getNextRoute(actualPosition, clientActual.origin, clientActual.travelmode);
-        // actualPosition = clientActual.origin;
-        actualPosition = watchPos();
         router.map(path);
     },
     next: function ($template) {
@@ -167,15 +169,6 @@ export default {
         status.clear();
         let clientActual = getPreviousClient();
         addClientTemplate(clientActual, $template);
-    },
-    previousMap: function ($template) {
-        status.clear();
-        let clientActual = getPreviousClient();
-        addClientTemplate(clientActual, $template);
-        let path = getNextRoute(actualPosition, clientActual.destination, clientActual.travelmode);
-        // let path = getNextRoute(actualPosition, this.searchClient("Bernhard Messerli").home, "driving");
-        actualPosition = clientActual.destination;
-        router.map(path);
     },
     actualize: function ($template) {
         status.clear();

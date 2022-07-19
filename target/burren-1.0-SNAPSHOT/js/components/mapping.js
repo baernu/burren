@@ -20,7 +20,6 @@ const template2 = `
         <br>
         <br>
         <button id="nextMap" type="submit" class="primary">NextMap</button>
-        <button id="previousMap" type="submit" class="primary">PreviousMap</button> <br>
         <button id="next" type="submit" class="primary">Next</button>
         <button id="previous" type="submit" class="primary">Previous</button>
         <button id="actualize" type"submit" class="primary">Actualize</button>
@@ -45,7 +44,6 @@ export default {
     render: function () {
         // position.getPos();
         $('#nextMap', $template2).click(event => this.nextMap(event, $template2));
-        $('#previousMap', $template2).click(event => this.previousMap(event, $template2));
         $('#next', $template2).click(event => this.next(event, $template2));
         $('#previous', $template2).click(event => this.previous(event, $template2));
         $('#search', $template2).click(event => this.search(event, $template2));
@@ -69,10 +67,6 @@ export default {
         event.preventDefault();
         map.nextMap($template);
 
-    },
-    previousMap: function (event, $template) {
-        event.preventDefault();
-        map.previousMap($template);
     },
     next: function (event, $template) {
         event.preventDefault();
