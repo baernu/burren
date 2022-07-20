@@ -22,6 +22,7 @@ let list = [
         phone: "",
         orders: [
             {
+                id: 0,
                 type: "",
                 quantity: 0,
                 back: 0
@@ -38,6 +39,7 @@ let list = [
         phone: "079 206 42 23",
         orders: [
             {
+                id: 1,
                 type: "",
                 quantity: 0,
                 back: 0
@@ -55,11 +57,13 @@ let list = [
         orders:
             [
                 {
+                    id: 2,
                     type: "Milk",
                     quantity: 3,
                     back: 0
                 },
                 {
+                    id: 3,
                     type: "Cheese",
                     quantity: 3,
                     back: 0
@@ -76,6 +80,7 @@ let list = [
         phone: "079 206 42 23",
         orders: [
             {
+                id: 4,
                 type: "Milk",
                 quantity: 3,
                 back: 0
@@ -91,6 +96,7 @@ let list = [
         phone: "079 206 42 23",
         orders: [
             {
+                id: 5,
                 type: "Milk",
                 quantity: 3,
                 back: 0
@@ -106,6 +112,7 @@ let list = [
         phone: "079 206 42 23",
         orders: [
             {
+                id: 6,
                 type: "Milk",
                 quantity: 3,
                 back: 0
@@ -121,6 +128,7 @@ let list = [
         phone: "",
         orders: [
             {
+                id: 7,
                 type: "",
                 quantity: 0,
                 back: 0
@@ -136,6 +144,7 @@ let list = [
         phone: "",
         orders: [
             {
+                id: 8,
                 type: "",
                 quantity: 0,
                 back: 0
@@ -198,10 +207,10 @@ export default {
         bol = "bad";
         let i = n;
         if (list[i+1].listNumber !== -5){
-            if (i > 1) {
-                if (list[i].status === 0)
-                    status.error("last client not delivered!");
-            }
+            // if (i > 1) {
+            //     if (list[i].status === 0)
+            //         status.error("last client not delivered!");
+            // }
 
             let clientActual = getNextClient();
             addClientTemplate(clientActual, $template);
@@ -210,7 +219,6 @@ export default {
             if (bol === "bad") {
                 let k = n;
                 actualPosition = list[--k].origin;
-                console.log(actualPosition);
             } else
                 actualPosition = position;
 
@@ -224,15 +232,17 @@ export default {
 
         let i = n;
         if (list[i+1].listNumber !== -5) {
-            if (i > 0) {
-                if (list[i].status === 0)
-                    status.error("last client not delivered!");
-            }
+            // if (i > 0) {
+            //     if (list[i].status === 0)
+            //         status.error("last client not delivered!");
+            // }
 
             let clientActual = getNextClient();
             addClientTemplate(clientActual, $template);
             addClientOrders(clientActual);
+
         }
+
 
     },
     previous: function ($template2, $template) {
@@ -251,6 +261,14 @@ export default {
 
     exportList: function() {
         return list;
+    },
+    exportSynList: function () {
+        let clonedArray = [...list];
+        return synchroList(clonedArray);
+    },
+    exportSynStatus: function () {
+        let clonedArray = [...list];
+        return synStatus(clonedArray);
     }
 
 }
@@ -262,7 +280,7 @@ function addClient(client) {
         <td>${client.origin}</td>
         <td>${client.phone}</td>
         <td>
-            <input data-field="${client.status}+ ${client.name}" name="${client.status}" type="number" value="${client.status}" min="0" max="1">
+            <input data-field="${client.name}" name="${client.name}" type="number" value="${client.status}" min="0" max="1">
         </td>
     `
     );
@@ -271,15 +289,15 @@ function addClient(client) {
 
 }
 
-let i = 0;
+
 function getOrder(order) {
     let data = $('<tr id="orderbind">').addClass('clientRow').html(`
         <td>${order.type}</td>
         <td>
-            <input data-field="${order.quantity}" name="${order.quantity}" type="number" value="${order.quantity}" min="0">
+            <input data-field="quantity${order.id}" name="quantity${order.id}"" type="number" value="${order.quantity}" min="0">
         </td>
         <td>
-            <input data-field="${order.back}" name="${order.back}" type="number" value="${order.back}" min="0">
+            <input data-field="back${order.id}" "back${order.id}" type="number" value="${order.back}" min="0">
         </td>
     `
     );
@@ -292,17 +310,31 @@ function addClientOrders(client) {
     $('#table1', mapping.getOrders()).empty().append($('<tr class="tableOrder"><th id="thType">Type</th><th id="thQuantity">Quantity</th><th id="thBack">Back</th></tr>').html());
     client.orders.forEach(element => $('#table1', mapping.getOrders()).append(getOrder(element)));
     bind.bind(client, mapping.getOrders());
+}
 
+function synchroList(list) {
+    list.forEach(client => {
+        client.orders.forEach(order => {
+            order.quantity = $('[data-field="quantity${element.id}"]').val();
+            order.back = $('[data-field="back${element.id}"]').val();
+        })
+    });
+    return list;
 
+}
+
+function synStatus(list) {
+
+    list.forEach(client => {
+        client.status = $('[data-field="${client.name}"]', $(mapping.getTemp0())).val();
+    });
+    return list;
 }
 
 
 function addClientTemplate(client, $template) {
 
     $('#tableOrder',$template).empty().append( $('<tr id="tableOrderRow"><th id="thNumber">Nr</th><th id="thName">Name</th><th id="th2">Address</th><th id="th3">Phone</th><th id="th4">Delivered?</th></tr>').html()).append(addClient(client));
-
-
-
 }
 
 

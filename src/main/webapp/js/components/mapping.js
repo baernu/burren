@@ -1,7 +1,7 @@
 import map from "./map.js";
 import status from "../status.js";
 import navigation from "../navigation.js";
-// import bind from "../bind.js";
+import bind from "../bind.js";
 const template = `
     <div >
         <table  id="tableOrder">
@@ -57,17 +57,23 @@ export default {
     render: function () {
 
         navigation.showNav(true);
+
         $('#nextMap', $template2).click(event => this.nextMap(event, $template2));
         $('#next', $template2).click(event => this.next(event, $template2, $template));
         $('#previous', $template2).click(event => this.previous(event, $template2));
         $('#search', $template2).click(event => this.search(event, $template2));
         $('#notSearched', $template2).click(event => this.notSearched(event));
+
         let $main = $('main').empty();
         $main.append($template2.append($template1.append($template)));
+
 
     },
     getOrders: function () {
         return $template1;
+    },
+    getTemp0: function () {
+        return $template;
     },
 
     nextMap: function (event, $template) {
@@ -92,8 +98,9 @@ export default {
     notSearched: function (event) {
         event.preventDefault();
         status.listGenerateHead();
-        let clientList = map.exportList().filter(x => x.status === 0);
+        let clientList = map.exportSynStatus().filter(x => x.status === 0);
         clientList.forEach(client => status.list(client));
-    },
+
+    }
 }
 
