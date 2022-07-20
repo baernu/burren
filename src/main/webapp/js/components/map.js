@@ -19,8 +19,21 @@ let list = [
         travelmode: "",
         name: "",
         phone: "",
-        status: "done",
-        back: 0
+        orders:
+        [
+            {
+                type: "Milk",
+                quantity: 3,
+                back: 0
+             },
+            {
+                type: "Cheese",
+                quantity: 3,
+                back: 0
+            }
+            ],
+        status: 0
+
     },
     {
         listNumber: 0,
@@ -28,8 +41,14 @@ let list = [
         travelmode: "",
         name: "",
         phone: "",
-        status: "done",
-        back: 0
+        orders: [
+            {
+                type: "Milk",
+                quantity: 3,
+                back: 0
+            }
+        ],
+        status: 0
     },
 
     {
@@ -38,8 +57,24 @@ let list = [
         travelmode: "driving",
         name: "Bernhard Messerli 1",
         phone: "079 206 42 23",
-        status: "open",
-        back: 0
+        orders: [
+            {
+                type: "Milk",
+                quantity: 3,
+                back: 0
+            },
+            {
+                type: "Cheese",
+                quantity: 5,
+                back: 0
+            },
+            {
+                type: "Egg",
+                quantity: 5,
+                back: 0
+            }
+        ],
+        status: 0
     },
     {
         listNumber: 2,
@@ -47,8 +82,14 @@ let list = [
         travelmode: "bicycling",
         name: "Bernhard Messerli 2",
         phone: "079 206 42 23",
-        status: "open",
-        back: 0
+        orders: [
+            {
+                type: "Milk",
+                quantity: 3,
+                back: 0
+            }
+        ],
+        status: 0
     },
     {
         listNumber: 3,
@@ -56,8 +97,14 @@ let list = [
         travelmode: "bicycling",
         name: "Bernhard Messerli 3",
         phone: "079 206 42 23",
-        status: "open",
-        back: 0
+        orders: [
+            {
+                type: "Milk",
+                quantity: 3,
+                back: 0
+            }
+        ],
+        status: 0
     },
     {
         listNumber: 4,
@@ -65,8 +112,14 @@ let list = [
         travelmode: "bicycling",
         name: "Kurt Moser",
         phone: "079 206 42 23",
-        status: "open",
-        back: 0
+        orders: [
+            {
+                type: "Milk",
+                quantity: 3,
+                back: 0
+            }
+        ],
+        status: 0
     },
     {
         listNumber: 5,
@@ -74,12 +127,19 @@ let list = [
         travelmode: "",
         name: "",
         phone: "",
-        status: "done",
-        back: 0
+        orders: [
+            {
+                type: "Milk",
+                quantity: 3,
+                back: 0
+            }
+        ],
+        status: 0
     },
 ];
 
 let actualPosition;
+let actualClient;
 let bol = "bad";
 actualPosition = "Mengestorfbergstrasse";
 function watchPos () {
@@ -102,11 +162,7 @@ function watchPos () {
         }
     );
 }
-// watchPos();
 
-
-// console.log(actualPosition);
-let actualClient;
 
 
 let n = 1;
@@ -126,18 +182,16 @@ function searchClient (name) {
     actualClient = client;
     return client;
 }
-function setStatusActualClient(status, name) {
-    searchClient(name).status = status;
-}
 
 export default {
 
     nextMap: function ($template) {
         status.clear();
+
         bol = "bad";
         let i = n;
         if (i > -1) {
-            if (list[i].status === "open")
+            if (list[i].status === 0)
                 status.error("last client not delivered!");
         }
 
@@ -154,16 +208,18 @@ export default {
         let path = getNextRoute(actualPosition, clientActual.origin, clientActual.travelmode);
         router.map(path);
     },
-    next: function ($template) {
+    next: function ($template2, $template) {
         status.clear();
+
         let i = n;
         if (i > -1) {
-            if (list[i].status === "open")
+            if (list[i].status === 0)
                 status.error("last client not delivered!");
         }
 
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
+        addClientOrders(clientActual);
     },
     previous: function ($template) {
         status.clear();
@@ -180,12 +236,6 @@ export default {
         let clientActual = searchClient(name);
         addClientTemplate(clientActual, $template);
     },
-    setNumberBack: function (number) {
-        searchClient(this.getActualName()).back = number;
-    },
-    getNumberBack: function() {
-        return searchClient(this.getActualName()).back;
-    },
     getActualName: function() {
         return actualClient.name;
     },
@@ -201,8 +251,9 @@ function addClient(client) {
         <td>${client.name}</td>
         <td>${client.origin}</td>
         <td>${client.phone}</td>
-        <td data-field="back" name="back" class="done">${client.back}</td>
-        <td data-field="status" name="status" class="done">${client.status}</td>
+        <td>
+            <input data-field="${client.status}" name="${client.status}" type="number" value="${client.status}" min="0" max="1">
+        </td>
     `
     );
    bind.bind(client, $('#trow'));
@@ -210,39 +261,32 @@ function addClient(client) {
    return data;
 
 }
-let $temp;
-function addButtonDone() {
-    $temp =
-     $('<div>').addClass('primary').html(
-        `
-         <form>
-            <button id="done" type="submit" class="primary" >done</button>
-            <button id="open" type="submit" class="primary" >open</button>
-         </form>
-        `);
 
-    return $temp;
+function getOrder(order) {
+    let data = $('<tr id="orderbind">').addClass('clientRow').html(`
+        <td>${order.type}</td>
+        <td>
+            <input data-field="${order.quantity}" name="${order.quantity}" type="number" value="${order.quantity}" min="0">
+        </td>
+        <td>
+            <input data-field="${order.back}" name="${order.back}" type="number" value="${order.back}" min="0">
+        </td>
+    `
+    );
+    bind.bind(order, $('#orderbind'));
+    // bind.bind(client.back, $('#trow'));
+    return data;
+}
 
+function addClientOrders(client) {
 
+    client.orders.forEach(element => $('#table1', mapping.getOrders()).append(getOrder(element)));
 }
 
 
 function addClientTemplate(client, $template) {
-    let $orderComponent = mapping.getOrderComponent();
-    mapping.setOrderComponent($('#table',$orderComponent).append(addClient(client).append(addButtonDone())).append($template));
-    $('#done', $temp).click(event => done(event, client.name));
-    $('#open', $temp).click(event => open(event, client.name));
-}
-
-function done(event, name) {
-    event.preventDefault();
-    setStatusActualClient("done", name);
-
+    $('#tableOrder',$template).append(addClient(client));
 
 }
 
-function open(event, name) {
-    event.preventDefault();
-    setStatusActualClient("open", name);
-}
 
