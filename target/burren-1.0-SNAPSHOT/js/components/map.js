@@ -12,72 +12,64 @@ function getNextRoute(origin, destination, travelmode) {
     return path;
 }
 let list = [
+
+
     {
         listNumber: -1,
-        origin: "start",
-        destination: "",
+        origin: "",
         travelmode: "",
         name: "",
         phone: "",
-        orders:
-        [
+        orders: [
             {
-                type: "Milk",
-                quantity: 3,
-                back: 0
-             },
-            {
-                type: "Cheese",
-                quantity: 3,
+                type: "",
+                quantity: 0,
                 back: 0
             }
+        ],
+        status: 1
+    },
+
+    {
+        listNumber: 1,
+        origin: "Mengestorfbergstrasse",
+        travelmode: "driving",
+        name: "Thomas Burren",
+        phone: "079 206 42 23",
+        orders: [
+            {
+                type: "",
+                quantity: 0,
+                back: 0
+            }
+
+        ],
+        status: 1
+    },
+    {
+        listNumber: 2,
+        origin: "Könizstrasse 25",
+        travelmode: "driving",
+        name: "Fritz Seebacher",
+        phone: "079 256 23 23",
+        orders:
+            [
+                {
+                    type: "Milk",
+                    quantity: 3,
+                    back: 0
+                },
+                {
+                    type: "Cheese",
+                    quantity: 3,
+                    back: 0
+                }
             ],
         status: 0
 
     },
     {
-        listNumber: 0,
-        origin: "Mengestorfbergstrasse",
-        travelmode: "",
-        name: "",
-        phone: "",
-        orders: [
-            {
-                type: "Milk",
-                quantity: 3,
-                back: 0
-            }
-        ],
-        status: 0
-    },
-
-    {
-        listNumber: 1,
-        origin: "Illiswilstrasse+13+3033",
-        travelmode: "driving",
-        name: "Bernhard Messerli 1",
-        phone: "079 206 42 23",
-        orders: [
-            {
-                type: "Milk",
-                quantity: 3,
-                back: 0
-            },
-            {
-                type: "Cheese",
-                quantity: 5,
-                back: 0
-            },
-            {
-                type: "Egg",
-                quantity: 5,
-                back: 0
-            }
-        ],
-        status: 0
-    },
-    {
-        listNumber: 2,
+        listNumber: 3,
         origin: "Illiswilstrasse+24+3033",
         travelmode: "bicycling",
         name: "Bernhard Messerli 2",
@@ -92,7 +84,7 @@ let list = [
         status: 0
     },
     {
-        listNumber: 3,
+        listNumber: 4,
         origin: "Bielstrasse+28+3033+Lyss",
         travelmode: "bicycling",
         name: "Bernhard Messerli 3",
@@ -107,7 +99,7 @@ let list = [
         status: 0
     },
     {
-        listNumber: 4,
+        listNumber: 5,
         origin: "Bielstrasse+28+3033+Lyss",
         travelmode: "bicycling",
         name: "Kurt Moser",
@@ -122,19 +114,34 @@ let list = [
         status: 0
     },
     {
-        listNumber: 5,
+        listNumber: 6,
+        origin: "Mengestorfbergstrasse",
+        travelmode: "driving",
+        name: "Thomas Burren",
+        phone: "",
+        orders: [
+            {
+                type: "",
+                quantity: 0,
+                back: 0
+            }
+        ],
+        status: 1
+    },
+    {
+        listNumber: -5,
         origin: "Mengestorfbergstrasse",
         travelmode: "",
         name: "",
         phone: "",
         orders: [
             {
-                type: "Milk",
-                quantity: 3,
+                type: "",
+                quantity: 0,
                 back: 0
             }
         ],
-        status: 0
+        status: 1
     },
 ];
 
@@ -165,7 +172,7 @@ function watchPos () {
 
 
 
-let n = 1;
+let n = 0;
 function getNextClient () {
     let k = n;
     actualClient = list[++k];
@@ -190,37 +197,43 @@ export default {
 
         bol = "bad";
         let i = n;
-        if (i > -1) {
-            if (list[i].status === 0)
-                status.error("last client not delivered!");
+        if (list[i+1].listNumber !== -5){
+            if (i > 1) {
+                if (list[i].status === 0)
+                    status.error("last client not delivered!");
+            }
+
+            let clientActual = getNextClient();
+            addClientTemplate(clientActual, $template);
+            addClientOrders(clientActual);
+            let position = watchPos();
+            if (bol === "bad") {
+                let k = n;
+                actualPosition = list[--k].origin;
+                console.log(actualPosition);
+            } else
+                actualPosition = position;
+
+            let path = getNextRoute(actualPosition, clientActual.origin, clientActual.travelmode);
+            router.map(path);
         }
 
-        let clientActual = getNextClient();
-        addClientTemplate(clientActual, $template);
-        addClientOrders(clientActual);
-        let position = watchPos();
-        if (bol === "bad") {
-            let k = n;
-            actualPosition = list[--k].origin;
-            console.log(actualPosition);
-        } else
-            actualPosition = position;
-
-        let path = getNextRoute(actualPosition, clientActual.origin, clientActual.travelmode);
-        router.map(path);
     },
     next: function ($template2, $template) {
         status.clear();
 
         let i = n;
-        if (i > -1) {
-            if (list[i].status === 0)
-                status.error("last client not delivered!");
+        if (list[i+1].listNumber !== -5) {
+            if (i > 0) {
+                if (list[i].status === 0)
+                    status.error("last client not delivered!");
+            }
+
+            let clientActual = getNextClient();
+            addClientTemplate(clientActual, $template);
+            addClientOrders(clientActual);
         }
 
-        let clientActual = getNextClient();
-        addClientTemplate(clientActual, $template);
-        addClientOrders(clientActual);
     },
     previous: function ($template2, $template) {
         status.clear();
@@ -228,21 +241,14 @@ export default {
         addClientTemplate(clientActual, $template);
         addClientOrders(clientActual);
     },
-    actualize: function ($template2, $template) {
-        status.clear();
-        let clientActual = searchClient(this.getActualName());
-        addClientTemplate(clientActual, $template);
-        addClientOrders(clientActual);
-    },
+
     search: function ($template2, name) {
         status.clear();
         let clientActual = searchClient(name);
         addClientTemplate(clientActual, $template2);
         addClientOrders(clientActual);
     },
-    getActualName: function() {
-        return actualClient.name;
-    },
+
     exportList: function() {
         return list;
     }
@@ -282,14 +288,20 @@ function getOrder(order) {
 }
 
 function addClientOrders(client) {
+
     $('#table1', mapping.getOrders()).empty().append($('<tr class="tableOrder"><th id="thType">Type</th><th id="thQuantity">Quantity</th><th id="thBack">Back</th></tr>').html());
     client.orders.forEach(element => $('#table1', mapping.getOrders()).append(getOrder(element)));
     bind.bind(client, mapping.getOrders());
+
+
 }
 
 
 function addClientTemplate(client, $template) {
+
     $('#tableOrder',$template).empty().append( $('<tr id="tableOrderRow"><th id="thNumber">Nr</th><th id="thName">Name</th><th id="th2">Address</th><th id="th3">Phone</th><th id="th4">Delivered?</th></tr>').html()).append(addClient(client));
+
+
 
 }
 
