@@ -157,6 +157,7 @@ let list = [
 let actualPosition;
 let actualClient;
 let bol = "bad";
+let copyList1 = copyList();
 actualPosition = "Mengestorfbergstrasse";
 function watchPos () {
     navigator.geolocation.watchPosition(
@@ -258,17 +259,8 @@ export default {
         addClientTemplate(clientActual, $template2);
         addClientOrders(clientActual);
     },
-
-    exportList: function() {
-        return list;
-    },
-    exportSynList: function () {
-        let clonedArray = [...list];
-        return synchroList(clonedArray);
-    },
-    exportSynStatus: function () {
-        let clonedArray = [...list];
-        return synStatus(clonedArray);
+    exportCopyList: function () {
+        return copyList1;
     }
 
 }
@@ -285,6 +277,7 @@ function addClient(client) {
     `
     );
 
+   copyList1[n].status = $('[data-field="${client.name}"]').val();
    return data;
 
 }
@@ -297,10 +290,17 @@ function getOrder(order) {
             <input data-field="quantity${order.id}" name="quantity${order.id}"" type="number" value="${order.quantity}" min="0">
         </td>
         <td>
-            <input data-field="back${order.id}" "back${order.id}" type="number" value="${order.back}" min="0">
+            <input data-field="back${order.id}" name="back${order.id}" type="number" value="${order.back}" min="0">
         </td>
     `
     );
+
+    // copyList[n].forEach(client => client.orders.forEach(order1 => {
+    //     if (order1.id === order.id) {
+    //         order1.quantity = $('[data-field="quantity${order.id}"]').val();
+    //         order1.back = $('[data-field="back${order.id}"]').val();
+    //     }
+    // }));
 
     return data;
 }
@@ -312,29 +312,16 @@ function addClientOrders(client) {
     bind.bind(client, mapping.getOrders());
 }
 
-function synchroList(list) {
-    list.forEach(client => {
-        client.orders.forEach(order => {
-            order.quantity = $('[data-field="quantity${element.id}"]').val();
-            order.back = $('[data-field="back${element.id}"]').val();
-        })
-    });
-    return list;
-
-}
-
-function synStatus(list) {
-
-    list.forEach(client => {
-        client.status = $('[data-field="${client.name}"]', $(mapping.getTemp0())).val();
-    });
-    return list;
-}
-
 
 function addClientTemplate(client, $template) {
 
     $('#tableOrder',$template).empty().append( $('<tr id="tableOrderRow"><th id="thNumber">Nr</th><th id="thName">Name</th><th id="th2">Address</th><th id="th3">Phone</th><th id="th4">Delivered?</th></tr>').html()).append(addClient(client));
+}
+
+function copyList() {
+    let list1 = [];
+    list.forEach(client => list1.push(client));
+    return list1;
 }
 
 

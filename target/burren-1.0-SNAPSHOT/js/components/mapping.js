@@ -72,9 +72,6 @@ export default {
     getOrders: function () {
         return $template1;
     },
-    getTemp0: function () {
-        return $template;
-    },
 
     nextMap: function (event, $template) {
         event.preventDefault();
@@ -98,8 +95,9 @@ export default {
     notSearched: function (event) {
         event.preventDefault();
         status.listGenerateHead();
-        let clientList = map.exportSynStatus().filter(x => x.status === 0);
-        clientList.forEach(client => status.list(client));
+        // let clientList = map.exportSynStatus().filter(x => x.status === 0);
+        console.log(map.exportCopyList());
+        // clientList.forEach(client => status.list(client));
 
     }
 }
