@@ -264,32 +264,32 @@ function addClient(client) {
    return data;
 
 }
+
 let i = 0;
 function getOrder(order) {
     let data = $('<tr id="orderbind">').addClass('clientRow').html(`
         <td>${order.type}</td>
         <td>
-            <input data-field="${order.quantity}+ i" name="${order.quantity}" type="number" value="${order.quantity}" min="0">
+            <input data-field="${order.quantity}" name="${order.quantity}" type="number" value="${order.quantity}" min="0">
         </td>
         <td>
             <input data-field="${order.back}" name="${order.back}" type="number" value="${order.back}" min="0">
         </td>
     `
     );
-    i++;
 
     return data;
 }
 
 function addClientOrders(client) {
-
+    $('#table1', mapping.getOrders()).empty().append($('<tr class="tableOrder"><th id="thType">Type</th><th id="thQuantity">Quantity</th><th id="thBack">Back</th></tr>').html());
     client.orders.forEach(element => $('#table1', mapping.getOrders()).append(getOrder(element)));
     bind.bind(client, mapping.getOrders());
 }
 
 
 function addClientTemplate(client, $template) {
-    $('#tableOrder',$template).append(addClient(client));
+    $('#tableOrder',$template).empty().append( $('<tr id="tableOrderRow"><th id="thNumber">Nr</th><th id="thName">Name</th><th id="th2">Address</th><th id="th3">Phone</th><th id="th4">Delivered?</th></tr>').html()).append(addClient(client));
 
 }
 

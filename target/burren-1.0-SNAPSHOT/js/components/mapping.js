@@ -74,6 +74,9 @@ export default {
     getOrders: function () {
         return $template1;
     },
+    setOrders: function ($temp) {
+        $template1 = $temp;
+    },
 
     nextMap: function (event, $template) {
         event.preventDefault();
@@ -103,6 +106,12 @@ export default {
         status.listGenerateHead();
         let clientList = map.exportList().filter(x => x.status === 0);
         clientList.forEach(client => status.list(client));
-    }
+    },
+    getOrgTemp: function () {
+        return $templateOrg;
+    },
+    getOrgTemp1: function () {
+        return $template1Org;
+    },
 }
 
