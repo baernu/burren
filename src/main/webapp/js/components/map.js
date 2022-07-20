@@ -185,7 +185,7 @@ function searchClient (name) {
 
 export default {
 
-    nextMap: function ($template) {
+    nextMap: function ($template2, $template) {
         status.clear();
 
         bol = "bad";
@@ -197,6 +197,7 @@ export default {
 
         let clientActual = getNextClient();
         addClientTemplate(clientActual, $template);
+        addClientOrders(clientActual);
         let position = watchPos();
         if (bol === "bad") {
             let k = n;
@@ -221,20 +222,23 @@ export default {
         addClientTemplate(clientActual, $template);
         addClientOrders(clientActual);
     },
-    previous: function ($template) {
+    previous: function ($template2, $template) {
         status.clear();
         let clientActual = getPreviousClient();
         addClientTemplate(clientActual, $template);
+        addClientOrders(clientActual);
     },
-    actualize: function ($template) {
+    actualize: function ($template2, $template) {
         status.clear();
         let clientActual = searchClient(this.getActualName());
         addClientTemplate(clientActual, $template);
+        addClientOrders(clientActual);
     },
-    search: function ($template, name) {
+    search: function ($template2, name) {
         status.clear();
         let clientActual = searchClient(name);
-        addClientTemplate(clientActual, $template);
+        addClientTemplate(clientActual, $template2);
+        addClientOrders(clientActual);
     },
     getActualName: function() {
         return actualClient.name;
@@ -252,35 +256,35 @@ function addClient(client) {
         <td>${client.origin}</td>
         <td>${client.phone}</td>
         <td>
-            <input data-field="${client.status}" name="${client.status}" type="number" value="${client.status}" min="0" max="1">
+            <input data-field="${client.status}+ ${client.name}" name="${client.status}" type="number" value="${client.status}" min="0" max="1">
         </td>
     `
     );
-   bind.bind(client, $('#trow'));
-   // bind.bind(client.back, $('#trow'));
+
    return data;
 
 }
-
+let i = 0;
 function getOrder(order) {
     let data = $('<tr id="orderbind">').addClass('clientRow').html(`
         <td>${order.type}</td>
         <td>
-            <input data-field="${order.quantity}" name="${order.quantity}" type="number" value="${order.quantity}" min="0">
+            <input data-field="${order.quantity}+ i" name="${order.quantity}" type="number" value="${order.quantity}" min="0">
         </td>
         <td>
             <input data-field="${order.back}" name="${order.back}" type="number" value="${order.back}" min="0">
         </td>
     `
     );
-    bind.bind(order, $('#orderbind'));
-    // bind.bind(client.back, $('#trow'));
+    i++;
+
     return data;
 }
 
 function addClientOrders(client) {
 
     client.orders.forEach(element => $('#table1', mapping.getOrders()).append(getOrder(element)));
+    bind.bind(client, mapping.getOrders());
 }
 
 

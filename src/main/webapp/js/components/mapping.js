@@ -1,6 +1,7 @@
 import map from "./map.js";
 import status from "../status.js";
 import navigation from "../navigation.js";
+// import bind from "../bind.js";
 const template = `
     <div >
         <table  id="tableOrder">
@@ -9,6 +10,7 @@ const template = `
                 <th id="thName">Name</th>
                 <th id="th2">Address</th>
                 <th id="th3">Phone</th>
+                <th id="th4">Delivered?</th>
             </tr>
         </table>
      </div>
@@ -57,33 +59,22 @@ let $template2 = $(template2);
 export default {
 
     render: function () {
-        // position.getPos();
+
         navigation.showNav(true);
         $('#nextMap', $template2).click(event => this.nextMap(event, $template2));
         $('#next', $template2).click(event => this.next(event, $template2, $template));
         $('#previous', $template2).click(event => this.previous(event, $template2));
         $('#search', $template2).click(event => this.search(event, $template2));
-        // $('#submitBack', $template2).click(event => back(event, $template2));
         $('#actualize', $template2).click(event => this.actualize(event, $template2));
         $('#notSearched', $template2).click(event => this.notSearched(event));
         let $main = $('main').empty();
         $main.append($template2.append($template1.append($template)));
 
     },
-
-    getHeadTemplate: function () {
-        return $template;
-    },
-
-    setHeadTemplate: function(headComponent) {
-        $template = headComponent;
-    },
     getOrders: function () {
         return $template1;
     },
-    setOrders: function (ordersComponent) {
-        $template1 = ordersComponent;
-    },
+
     nextMap: function (event, $template) {
         event.preventDefault();
         map.nextMap($template);
@@ -104,14 +95,13 @@ export default {
     search: function (event, $template) {
         event.preventDefault();
         let name = $('#username', $template).val();
-        console.log(name);
         $('#username', $template).val("");
         map.search($template, name);
     },
     notSearched: function (event) {
         event.preventDefault();
         status.listGenerateHead();
-        let clientList = map.exportList().filter(x => x.status === "open");
+        let clientList = map.exportList().filter(x => x.status === 0);
         clientList.forEach(client => status.list(client));
     }
 }
