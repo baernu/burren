@@ -18,4 +18,5 @@ router.register('/showOrder', showOrder);
 router.register('/editOrder', editOrder);
 router.register('/navigation', navigation);
 
-router.navigate('/login');
+
+router.navigate('/showOrder');

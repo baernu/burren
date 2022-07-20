@@ -24,7 +24,7 @@ public class Token {
         int expiresIn = 3600000;
         return Jwts.builder()
                 .claim("userID", userID)
-                .claim("type", type)
+                .claim("typus", type)
                 .claim("firstName", firstName)
                 .claim("lastName", lastName)
                 .claim("email", email)
@@ -45,7 +45,7 @@ public class Token {
             }
             List<String> content = new ArrayList<>();
             content.add(0, jws.getBody().get("userID").toString());
-            content.add(1, jws.getBody().get("type").toString());
+            content.add(1, jws.getBody().get("typus").toString());
             content.add(2, jws.getBody().get("firstName").toString());
             content.add(3, jws.getBody().get("lastName").toString());
             content.add(4, jws.getBody().get("email").toString());
