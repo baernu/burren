@@ -5,17 +5,14 @@ import status from "../status.js";
 
 
 function getNextRoute(origin, destination, travelmode) {
-    // let path = service.getNextRoute();
-    // let path = "https://www.google.com/maps/dir/?api=1&origin=46.9596448,7.2632538&destination=Uettligenstrasse&travelmode=bicycling"
-    let path = "https://www.google.com/maps/dir/?api=1&origin=" + origin + "&destination=" + destination + "&travelmode=" + travelmode;
 
+    let path = "https://www.google.com/maps/dir/?api=1&origin=" + origin + "&destination=" + destination + "&travelmode=" + travelmode;
     return path;
 }
+
 let list = [
-
-
     {
-        listNumber: -1,
+        listNumber: 0,
         origin: "",
         travelmode: "",
         name: "",
@@ -193,7 +190,6 @@ function getPreviousClient () {
     actualClient = list[--k];
     return list[--n];
 }
-
 function searchClient (name) {
     let client = list.find(x => x.name === name);
     actualClient = client;
@@ -208,10 +204,10 @@ export default {
         bol = "bad";
         let i = n;
         if (list[i+1].listNumber !== -5){
-            // if (i > 1) {
-            //     if (list[i].status === 0)
-            //         status.error("last client not delivered!");
-            // }
+
+            if (list[i].status === 0)
+                status.error("last client not delivered!");
+
 
             let clientActual = getNextClient();
             addClientTemplate(clientActual, $template);
@@ -241,10 +237,7 @@ export default {
             let clientActual = getNextClient();
             addClientTemplate(clientActual, $template);
             addClientOrders(clientActual);
-
         }
-
-
     },
     previous: function ($template2, $template) {
         status.clear();
@@ -252,7 +245,6 @@ export default {
         addClientTemplate(clientActual, $template);
         addClientOrders(clientActual);
     },
-
     search: function ($template2, name) {
         status.clear();
         let clientActual = searchClient(name);
@@ -265,7 +257,6 @@ export default {
     exportList: function () {
         return list;
     }
-
 }
 
 function addClient(client) {
@@ -282,10 +273,7 @@ function addClient(client) {
     bind.bind(client, $data);
 
    return $data;
-
 }
-
-
 function getOrder(order) {
     let $data = $('<tr id="orderbind">').addClass('clientRow').html(`
         <td>${order.type}</td>
@@ -301,19 +289,15 @@ function getOrder(order) {
 
     return $data;
 }
-
 function addClientOrders(client) {
 
     $('#table1', mapping.getOrders()).empty().append($('<tr class="tableOrder"><th id="thType">Type</th><th id="thQuantity">Quantity</th><th id="thBack">Back</th></tr>').html());
     client.orders.forEach(element => $('#table1', mapping.getOrders()).append(getOrder(element)));
 }
-
-
 function addClientTemplate(client, $template) {
 
     $('#tableOrder',$template).empty().append( $('<tr id="tableOrderRow"><th id="thNumber">Nr</th><th id="thName">Name</th><th id="th2">Address</th><th id="th3">Phone</th><th id="th4">Delivered?</th></tr>').html()).append(addClient(client));
 }
-
 function copyList() {
     let list1 = [];
     list.forEach(client => list1.push(client));
