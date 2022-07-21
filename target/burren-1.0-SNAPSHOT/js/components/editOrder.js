@@ -75,7 +75,7 @@ let list = [
 ];
 
 function make(component) {
-    let makeTemplate =
+    let $makeTemplate =
         $('<tr>').addClass("EditComponent").html(`
         <td>${component.day}</td>
         <td>${component.date}</td>
@@ -85,9 +85,9 @@ function make(component) {
         </td>
     
      `);
-    // bind.bind(component, $('#make'));
+    bind.bind(component, $makeTemplate);
 
-    return makeTemplate;
+    return $makeTemplate;
 }
 
 function addButton(message) {
@@ -100,7 +100,6 @@ export default {
         navigation.showNav(true);
         if (i === 0) {
             list.forEach(element => $('#tableEdit', $editTemplate).append(make(element)));
-            bind.bind(list, $('#tableEdit'));
             $editTemplate.append(addButton("send"));
         }
 
