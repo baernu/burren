@@ -95,9 +95,9 @@ export default {
     notSearched: function (event) {
         event.preventDefault();
         status.listGenerateHead();
-        // let clientList = map.exportSynStatus().filter(x => x.status === 0);
-        // console.log(map.exportCopyList());
-        // clientList.forEach(client => status.list(client));
+        let clientList = map.exportList().filter(x => x.status === 0);
+        // console.log(map.exportList());
+        clientList.forEach(client => status.list(client));
 
     }
 }
