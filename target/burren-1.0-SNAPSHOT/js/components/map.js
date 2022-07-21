@@ -233,10 +233,10 @@ export default {
 
         let i = n;
         if (list[i+1].listNumber !== -5) {
-            // if (i > 0) {
-            //     if (list[i].status === 0)
-            //         status.error("last client not delivered!");
-            // }
+
+            if (list[i].status === 0)
+                status.error("last client not delivered!");
+
 
             let clientActual = getNextClient();
             addClientTemplate(clientActual, $template);
@@ -261,55 +261,51 @@ export default {
     },
     exportCopyList: function () {
         return copyList1;
+    },
+    exportList: function () {
+        return list;
     }
 
 }
 
 function addClient(client) {
-   let data = $('<tr id="trow">').addClass('clientRow').html(`
+   let $data = $('<tr id="trow">').addClass('clientRow').html(`
         <td>${client.listNumber}</td>
         <td>${client.name}</td>
         <td>${client.origin}</td>
         <td>${client.phone}</td>
         <td>
-            <input data-field="${client.name}" name="${client.name}" type="number" value="${client.status}" min="0" max="1">
+            <input data-field="status" name="status" type="number" value="${client.status}" min="0" max="1">
         </td>
     `
     );
+    bind.bind(client, $data);
 
-   copyList1[n].status = $('[data-field="${client.name}"]').val();
-   return data;
+   return $data;
 
 }
 
 
 function getOrder(order) {
-    let data = $('<tr id="orderbind">').addClass('clientRow').html(`
+    let $data = $('<tr id="orderbind">').addClass('clientRow').html(`
         <td>${order.type}</td>
         <td>
-            <input data-field="quantity${order.id}" name="quantity${order.id}"" type="number" value="${order.quantity}" min="0">
+            <input data-field="quantity" name="quantity" type="number" value="${order.quantity}" min="0">
         </td>
         <td>
-            <input data-field="back${order.id}" name="back${order.id}" type="number" value="${order.back}" min="0">
+            <input data-field="back" name="back" type="number" value="${order.back}" min="0">
         </td>
     `
     );
+    bind.bind(order, $data);
 
-    // copyList[n].forEach(client => client.orders.forEach(order1 => {
-    //     if (order1.id === order.id) {
-    //         order1.quantity = $('[data-field="quantity${order.id}"]').val();
-    //         order1.back = $('[data-field="back${order.id}"]').val();
-    //     }
-    // }));
-
-    return data;
+    return $data;
 }
 
 function addClientOrders(client) {
 
     $('#table1', mapping.getOrders()).empty().append($('<tr class="tableOrder"><th id="thType">Type</th><th id="thQuantity">Quantity</th><th id="thBack">Back</th></tr>').html());
     client.orders.forEach(element => $('#table1', mapping.getOrders()).append(getOrder(element)));
-    bind.bind(client, mapping.getOrders());
 }
 
 

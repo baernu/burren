@@ -1,7 +1,7 @@
 import map from "./map.js";
 import status from "../status.js";
 import navigation from "../navigation.js";
-import bind from "../bind.js";
+
 const template = `
     <div >
         <table  id="tableOrder">
@@ -95,9 +95,9 @@ export default {
     notSearched: function (event) {
         event.preventDefault();
         status.listGenerateHead();
-        // let clientList = map.exportSynStatus().filter(x => x.status === 0);
-        console.log(map.exportCopyList());
-        // clientList.forEach(client => status.list(client));
+        let clientList = map.exportList().filter(x => x.status === 0);
+        // console.log(map.exportList());
+        clientList.forEach(client => status.list(client));
 
     }
 }

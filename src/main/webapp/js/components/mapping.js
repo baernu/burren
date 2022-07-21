@@ -1,7 +1,7 @@
 import map from "./map.js";
 import status from "../status.js";
 import navigation from "../navigation.js";
-import bind from "../bind.js";
+
 const template = `
     <div >
         <table  id="tableOrder">
