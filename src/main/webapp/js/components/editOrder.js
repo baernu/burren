@@ -97,7 +97,6 @@ function addButton(message) {
 let i = 0;
 export default {
     render: function () {
-        navigation.showNav(true);
         if (i === 0) {
             list.forEach(element => $('#tableEdit', $editTemplate).append(make(element)));
             $editTemplate.append(addButton("send"));

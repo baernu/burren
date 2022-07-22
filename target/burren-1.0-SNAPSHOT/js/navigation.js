@@ -30,29 +30,37 @@ let $navigationTemplate = $(navigationTemplate);
 
 
 export default {
-    logout: function () {
-        this.showNav(false);
-        router.navigate('/login');
-    },
-    showNav: function (show = true) {
-        if (show) {
+    login: function () { router.navigate('/login');},
+    mapps: function () { router.navigate('/mapping');},
+    homes: function () { router.navigate('/homeBurren');},
+    logout: function () { router.navigate('/homeBurren');},
+    showOrders: function () { router.navigate('/showOrder');},
+    editOrders: function () { router.navigate('/editOrder');},
+
+
+    showNav: function (showNav = true) {
+        if (showNav) {
             // $('nav').empty();
-            $("#loginLink", $navigationTemplate).click(e => {
-                e.preventDefault();
-                this.logout();
-            });
-           
+            $("#loginLink", $navigationTemplate).click(e => { e.preventDefault(); this.login();});
+            $("#homeLink", $navigationTemplate).click(e => { e.preventDefault(); this.homes();});
+            $("#LogoutLink", $navigationTemplate).click(e => { e.preventDefault(); this.homes();});
+
             $('nav').html($navigationTemplate);
         }
         else {
             $('nav').empty();
         }
     },
-    showAside: function (show = false) {
-        if (show) {
-            $('#ulSide', $sideNav).append($('<li></li><a href="#/mapping">Milktour</a></li>').addClass("liSide"));
-            $('#ulSide', $sideNav).append($('<li><a href="#/showOrder">Show Orders</a></li>').addClass("liSide"));
-            $('#ulSide', $sideNav).append($('<li><a href="#/editOrder">Edit Orders</a></li>').addClass("liSide"));
+
+    showAside: function (showAside = true) {
+        if (showAside) {
+            $('#ulSide', $sideNav).append($('<li><a id="mappID" href="#/mapping">Milktour</a></li>').addClass("liSide"));
+            $('#ulSide', $sideNav).append($('<li><a id="showOrderID" href="#/showOrder">Show Orders</a></li>').addClass("liSide"));
+            $('#ulSide', $sideNav).append($('<li><a id="editOrderID" href="#/editOrder">Edit Orders</a></li>').addClass("liSide"));
+
+            $("#mappID", $sideNav).click(e => { e.preventDefault(); this. mapps();});
+            $("#showOrderID", $sideNav).click(e => { e.preventDefault(); this.showOrders();});
+            $("#editOrderID", $sideNav).click(e => { e.preventDefault(); this.editOrders();});
 
             $('#menuItem', $menuTemplate)
                 .hover(event => openNav(event, $sideNav), ev => closeNav(ev, $sideNav));
@@ -77,5 +85,6 @@ function openNav(event, $sideNav) {
 
 function closeNav(event, $sideNav) {
     event.preventDefault();
-    $sideNav.hide();
+
+    // $sideNav.hide();
 }

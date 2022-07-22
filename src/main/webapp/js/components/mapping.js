@@ -56,8 +56,6 @@ export default {
 
     render: function () {
 
-        navigation.showNav(true);
-
         $('#nextMap', $template2).click(event => this.nextMap(event, $template2));
         $('#next', $template2).click(event => this.next(event, $template2, $template));
         $('#previous', $template2).click(event => this.previous(event, $template2));

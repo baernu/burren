@@ -6,6 +6,7 @@
  */
 
 import status from './status.js';
+import navigation from "./navigation.js";
 
 // Object to save routes to on registration
 let routes = {};
@@ -55,7 +56,7 @@ function navigateTo(path) {
     let component = routes[path];
     if (component)
         // Draw component onto site
-        show(component, param);
+        showCompo(component, param);
     else {
         // Render error message if no matching component found
         $("h2").html("Error");
@@ -65,7 +66,7 @@ function navigateTo(path) {
 }
 
 // Draw chosen component onto site
-function show(component, param) {
+function showCompo(component, param) {
     // Clear status container
     status.clear();
     // Adjust title

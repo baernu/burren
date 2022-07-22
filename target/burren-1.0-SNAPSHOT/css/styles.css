@@ -23,18 +23,15 @@ Design-System
 	text-decoration: none;
 	font-size: 17px;
 }
-.menuTemplate {
+#menuTemplate {
 	display: block;
 	/*color: #f2f2f2;*/
 	/*text-align: center;*/
-	/*padding: 14px 16px;*/
+	padding: 14px 16px;
 	/*text-decoration: none;*/
 	font-size: 17px;
 }
-.menuTemplate a {
-	float: left;
-	margin-left:16px;
-}
+
 
 /* Change the color of links on hover */
 .innerNavigation a:hover {
@@ -47,39 +44,48 @@ Design-System
 	background-color: #04AA6D;
 	color: white;
 }
-/*.ulSide {*/
-/*	list-style-type: none;*/
-/*	margin: 0;*/
-/*	padding: 0;*/
-/*	width: 200px;*/
-/*	background-color: #f1f1f1;*/
-/*	border: 1px solid #555;*/
-/*}*/
+.ulSide {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	width: 200px;
+	background-color: #f1f1f1;
+	border: 1px solid #555;
+}
 
-/*.liSide a {*/
-/*	display: block;*/
-/*	color: #000;*/
-/*	padding: 8px 16px;*/
-/*	text-decoration: none;*/
-/*}*/
+.liSide a {
+	display: block;
+	color: #000;
+	padding: 8px 16px;
+	text-decoration: none;
+}
 
-/*.liSide {*/
-/*	text-align: center;*/
-/*	border-bottom: 1px solid #555;*/
-/*}*/
+.liSide {
+	text-align: center;
+	border-bottom: 1px solid #555;
+}
 
-/*.liSide:last-child {*/
-/*	border-bottom: none;*/
-/*}*/
+.liSide:last-child {
+	border-bottom: none;
+}
 
-/*.liSide a.active {*/
-/*	background-color: #04AA6D;*/
-/*	color: white;*/
-/*}*/
+.liSide a.active {
+	background-color: #04AA6D;
+	color: white;
+}
 
-/*.liSide a:hover:not(.active) {*/
-/*	background-color: #555;*/
-/*	color: white;*/
-/*}*/
+.liSide a:hover:not(.active) {
+	background-color: #555;
+	color: white;
+}
+
+aside {
+	display: block;
+	width: 20%;
+}
+
+nav {
+	width: 60%;
+}
 
 

@@ -77,8 +77,6 @@ let $showTemplate = $(showOrder);
 export default {
 
     render: function () {
-        // navigation.showNav(true);
-        // navigation.showAside(true);
         orderList.forEach(element => $('#tableShow', $showTemplate).append(addOrder(element)));
         let $main = $('main');
         $main.empty().append($showTemplate);
