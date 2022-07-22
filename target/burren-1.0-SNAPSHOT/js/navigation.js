@@ -17,8 +17,12 @@ const menuTemplate =
 
 const sideNav =
 
-    `<div id="mySidenav" class="sidenav">
-    </div>`;
+    `
+<aside>
+    <div id="mySidenav" >
+        <ul id="ulSide" class="sidenav"></ul>
+    </div>
+</aside>`;
 
 let $sideNav = $(sideNav);
 let $menuTemplate = $(menuTemplate);
@@ -32,24 +36,32 @@ export default {
     },
     showNav: function (show = true) {
         if (show) {
-
+            // $('nav').empty();
             $("#loginLink", $navigationTemplate).click(e => {
                 e.preventDefault();
                 this.logout();
             });
+           
+            $('nav').html($navigationTemplate);
+        }
+        else {
+            $('nav').empty();
+        }
+    },
+    showAside: function (show = false) {
+        if (show) {
+            $('#ulSide', $sideNav).append($('<li></li><a href="#/mapping">Milktour</a></li>').addClass("liSide"));
+            $('#ulSide', $sideNav).append($('<li><a href="#/showOrder">Show Orders</a></li>').addClass("liSide"));
+            $('#ulSide', $sideNav).append($('<li><a href="#/editOrder">Edit Orders</a></li>').addClass("liSide"));
 
-            $sideNav.append($('<a href="#/mapping">Milktour</a>'));
-            $sideNav.append($('<a href="#/showOrder">Show Orders</a>'));
-            $sideNav.append($('<a href="#/editOrder">Edit Orders</a>'));
-
-            $navigationTemplate.append($menuTemplate);
             $('#menuItem', $menuTemplate)
                 .hover(event => openNav(event, $sideNav), ev => closeNav(ev, $sideNav));
 
-            $("nav").html($navigationTemplate);
+            $('aside').html($menuTemplate);
+
         }
         else {
-            $("nav").empty();
+            $('aside').empty();
         }
     }
 }

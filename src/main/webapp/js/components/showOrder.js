@@ -61,7 +61,7 @@ let orderList = [
 
 ]
 
-function show (order) {
+function addOrder (order) {
     return $('<tr>').addClass("showOrder").html(`
        <td>${order.date}</td>
        <td>${order.type}</td>
@@ -77,8 +77,9 @@ let $showTemplate = $(showOrder);
 export default {
 
     render: function () {
-        navigation.showNav(true);
-        orderList.forEach(element => $('#tableShow', $showTemplate).append(show(element)));
+        // navigation.showNav(true);
+        // navigation.showAside(true);
+        orderList.forEach(element => $('#tableShow', $showTemplate).append(addOrder(element)));
         let $main = $('main');
         $main.empty().append($showTemplate);
     }
