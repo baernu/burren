@@ -23,13 +23,8 @@ Design-System
 	text-decoration: none;
 	font-size: 17px;
 }
-#menuTemplate {
-	display: block;
-	/*color: #f2f2f2;*/
-	/*text-align: center;*/
-	padding: 14px 16px;
-	/*text-decoration: none;*/
-	font-size: 17px;
+#menuItem {
+	display: flex;
 }
 
 
@@ -48,7 +43,7 @@ Design-System
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	width: 200px;
+	width: 20%;
 	background-color: #f1f1f1;
 	border: 1px solid #555;
 }
@@ -61,8 +56,8 @@ Design-System
 }
 
 .liSide {
-	text-align: center;
-	border-bottom: 1px solid #555;
+	text-align: left;
+	/*border-bottom: 1px solid #555;*/
 }
 
 .liSide:last-child {
@@ -77,15 +72,19 @@ Design-System
 .liSide a:hover:not(.active) {
 	background-color: #555;
 	color: white;
+	/*width: 100%;*/
 }
 
 aside {
-	display: block;
-	width: 20%;
+	float: left;
 }
 
 nav {
 	width: 60%;
+}
+main {
+	float: left;
+	with: 70%;
 }
 
 

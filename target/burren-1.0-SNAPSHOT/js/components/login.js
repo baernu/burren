@@ -2,7 +2,7 @@ import router from '../router.js';
 import service from '../service.js';
 import store from '../store.js';
 import status from '../status.js';
-import navigation from '../navigation.js';
+import navigation from "../navigation.js";
 
 // Template
 const loginFormTemplate = `
@@ -36,7 +36,7 @@ export default {
         // Attach event listeners to html
         $('#loginButton', $view).click(event => login(event, $view));
         // Hide navigation on Login view
-        navigation.showNav(false);
+        // navigation.showNav(false);
         // render html
         $container.append($view);
     }

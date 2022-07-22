@@ -85,6 +85,9 @@ function openNav(event, $sideNav) {
 
 function closeNav(event, $sideNav) {
     event.preventDefault();
+    $('#menuItem', $menuTemplate).click(event => {
+        event.preventDefault();
+        $sideNav.hide();
+    });
 
-    // $sideNav.hide();
 }
