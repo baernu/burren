@@ -2,7 +2,7 @@ import router from "./router.js";
 
 const navigationTemplate = `
     <nav>
-        <div  class="innerNavigation">
+        <div  id="nav1" class="innerNavigation">
             <a id="homeLink" href="#/home" class="active">Home</a>
             <a id="loginLink" href="#/login">Login</a>
             <a id="logoutLink" href="#/logout">Logout</a>
@@ -11,14 +11,13 @@ const navigationTemplate = `
 `;
 const menuTemplate =
 `
-<div id="menuTemplate">
+<div id="menuTemplate" class="menuTemplate">
     <span id="menuItem">&#9776</span>
 </div>`;
 
 const sideNav =
 
     `<div id="mySidenav" class="sidenav">
-        <a id="side" href="javascript:void(0)" class="closebtn" onClick="closeNav()">&times;</a>
     </div>`;
 
 let $sideNav = $(sideNav);
@@ -39,9 +38,9 @@ export default {
                 this.logout();
             });
 
-            $sideNav[0].append($('<a href="#/mapping">Milktour</a>'));
-            $sideNav[0].append($('<a href="#/showOrder">Show Orders</a>'));
-            $sideNav[0].append($('<a href="#/editOrder">Edit Orders</a>'));
+            $sideNav.append($('<a href="#/mapping">Milktour</a>'));
+            $sideNav.append($('<a href="#/showOrder">Show Orders</a>'));
+            $sideNav.append($('<a href="#/editOrder">Edit Orders</a>'));
 
             $navigationTemplate.append($menuTemplate);
             $('#menuItem', $menuTemplate)
