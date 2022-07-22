@@ -5,8 +5,8 @@ const showOrder =
         <h1>Show Order</h1>
         <table  id="tableShow">
             <tr class="tableShow">
-                <th>Type</th>
                 <th>Date</th>
+                <th>Type</th>
                 <th>Quantity</th>
                 <th>Back</th>
             </tr>
@@ -63,8 +63,8 @@ let orderList = [
 
 function show (order) {
     return $('<tr>').addClass("showOrder").html(`
-       <td>${order.type}</td>
        <td>${order.date}</td>
+       <td>${order.type}</td>
        <td>${order.quantity}</td>
        <td>${order.back}</td>
     `);

@@ -1,10 +1,29 @@
 import router from "./router.js";
 
 const navigationTemplate = `
-    <nav class="innerNavigation">
-        <a id="logoutLink" href="#/login">Logout</a>
+    <nav>
+        <div  class="innerNavigation">
+            <a id="homeLink" href="#/home" class="active">Home</a>
+            <a id="loginLink" href="#/login">Login</a>
+            <a id="logoutLink" href="#/logout">Logout</a>
+        </div>
     </nav>
 `;
+const menuTemplate =
+`
+<div id="menuTemplate">
+    <span id="menuItem">&#9776</span>
+</div>`;
+
+const sideNav =
+
+    `<div id="mySidenav" class="sidenav">
+        <a id="side" href="javascript:void(0)" class="closebtn" onClick="closeNav()">&times;</a>
+    </div>`;
+
+let $sideNav = $(sideNav);
+let $menuTemplate = $(menuTemplate);
+let $navigationTemplate = $(navigationTemplate);
 
 
 export default {
@@ -14,27 +33,38 @@ export default {
     },
     showNav: function (show = true) {
         if (show) {
-            let navTempl = $(navigationTemplate);
-            let innerNav = navTempl[0];
-            // Add event handler for logout to navigation
-            $("a#logoutLink", navTempl).click(e => {
+
+            $("#loginLink", $navigationTemplate).click(e => {
                 e.preventDefault();
                 this.logout();
             });
-            // Add links for the other groups
-            $(innerNav).prepend($('<a href="#/mapping">Milktour</a>'));
-            $(innerNav).prepend($('<a href="#/showOrder">Show Orders</a>'));
-            $(innerNav).prepend($('<a href="#/editOrder">Edit Orders</a>'));
 
-            // // Add links for a administrator
-            // if(user.type == PeopleType.ADMIN) {
-            //     $(innerNav).prepend('<a href="#/moduleList">Modules</a>');
-            // }
-            $("nav").html(navTempl);
+            $sideNav[0].append($('<a href="#/mapping">Milktour</a>'));
+            $sideNav[0].append($('<a href="#/showOrder">Show Orders</a>'));
+            $sideNav[0].append($('<a href="#/editOrder">Edit Orders</a>'));
+
+            $navigationTemplate.append($menuTemplate);
+            $('#menuItem', $menuTemplate)
+                .hover(event => openNav(event, $sideNav), ev => closeNav(ev, $sideNav));
+
+            $("nav").html($navigationTemplate);
         }
         else {
             $("nav").empty();
         }
-
     }
+}
+let bool = true;
+function openNav(event, $sideNav) {
+    event.preventDefault();
+    if (bool) {
+        $menuTemplate.append($sideNav);
+        bool = false;
+    } else
+        $sideNav.show();
+}
+
+function closeNav(event, $sideNav) {
+    event.preventDefault();
+    $sideNav.hide();
 }
